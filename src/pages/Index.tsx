@@ -127,9 +127,12 @@ chmod +x install-ai-tools.sh
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Tabs defaultValue="install" className="max-w-4xl mx-auto">
-            <TabsList className="grid w-full grid-cols-5 bg-terminal-header border border-terminal-border mb-6">
+            <TabsList className="grid w-full grid-cols-6 bg-terminal-header border border-terminal-border mb-6">
               <TabsTrigger value="install" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
                 🚀 Install
+              </TabsTrigger>
+              <TabsTrigger value="build-guide" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
+                📚 Build
               </TabsTrigger>
               <TabsTrigger value="features" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
                 ✨ Features
@@ -237,6 +240,564 @@ chmod +x install-ai-tools.sh
                   <Github className="w-5 h-5" />
                   View on GitHub
                 </motion.a>
+              </motion.div>
+            </TabsContent>
+
+            {/* Build Guide Tab - Complete Dotfiles Creation Guide */}
+            <TabsContent value="build-guide" className="space-y-8">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
+              >
+                <h2 className="text-2xl font-bold text-terminal-directory mb-2">📚 Dotfiles တည်ဆောက်နည်း အပြည့်အစုံ</h2>
+                <p className="text-terminal-comment mb-6">
+                  သင့်ကိုယ်ပိုင် dotfiles များကို အစမှ တည်ဆောက်နည်း အဆင့်ဆင့် လမ်းညွှန်ချက်
+                </p>
+              </motion.div>
+
+              {/* Part 1: Understanding Dotfiles */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+              >
+                <div className="bg-terminal-prompt/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-terminal-prompt font-bold text-lg">အပိုင်း ၁: Dotfiles ဆိုတာ ဘာလဲ?</h3>
+                </div>
+                <div className="p-4 space-y-4">
+                  <p className="text-terminal-fg">
+                    Dotfiles များသည် Unix/Linux systems တွင် <code className="text-terminal-warning">.</code> (dot) ဖြင့် စတင်သော configuration files များဖြစ်သည်။ 
+                    ၎င်းတို့သည် default အားဖြင့် hidden files များဖြစ်ပြီး terminal, shell, git, editors စသည်တို့ကို customize လုပ်ရာတွင် အသုံးပြုသည်။
+                  </p>
+                  
+                  <div className="bg-terminal-bg rounded-lg p-4">
+                    <h4 className="text-terminal-directory font-bold mb-2">အဓိက Dotfiles များ:</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-start gap-2">
+                        <span className="text-terminal-prompt">•</span>
+                        <span><code className="text-terminal-warning">.bashrc</code> - Bash shell configuration (aliases, prompt, environment variables)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-terminal-prompt">•</span>
+                        <span><code className="text-terminal-warning">.bash_aliases</code> - Custom command shortcuts</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-terminal-prompt">•</span>
+                        <span><code className="text-terminal-warning">.gitconfig</code> - Git settings (user info, aliases, preferences)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-terminal-prompt">•</span>
+                        <span><code className="text-terminal-warning">.gitignore_global</code> - Global ignore patterns for Git</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-terminal-prompt">•</span>
+                        <span><code className="text-terminal-warning">.bash_secrets</code> - API keys နှင့် sensitive data (git ignore လုပ်ထားသည်)</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-terminal-directory/10 border border-terminal-directory/30 rounded-lg p-4">
+                    <h4 className="text-terminal-directory font-bold mb-2">💡 Dotfiles သုံးခြင်း အကျိုးကျေးဇူးများ:</h4>
+                    <ul className="text-terminal-comment text-sm space-y-1">
+                      <li>✓ မည်သည့် computer မှာမဆို တူညီသော terminal experience ရနိုင်သည်</li>
+                      <li>✓ GitHub Codespaces တွင် automatic setup ဖြစ်သည်</li>
+                      <li>✓ Version control ဖြင့် changes များကို track လုပ်နိုင်သည်</li>
+                      <li>✓ အခြားသူများနှင့် share လုပ်နိုင်သည်</li>
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Part 2: Creating .bashrc */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ delay: 0.1 }}
+              >
+                <div className="bg-terminal-directory/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-terminal-directory font-bold text-lg">အပိုင်း ၂: .bashrc ဖန်တီးနည်း</h3>
+                </div>
+                <div className="p-4 space-y-4">
+                  <p className="text-terminal-fg text-sm">
+                    .bashrc သည် Bash shell ဖွင့်တိုင်း အလိုအလျောက် run သည့် configuration file ဖြစ်သည်။
+                  </p>
+
+                  <div className="space-y-4">
+                    <div className="border-l-4 border-terminal-prompt pl-4">
+                      <h4 className="text-terminal-prompt font-bold mb-2">အဆင့် ၂.၁: Environment Variables သတ်မှတ်ခြင်း</h4>
+                      <pre className="bg-terminal-bg p-3 rounded text-xs overflow-x-auto">
+{`# Editor settings
+export EDITOR='code'
+export VISUAL='code'
+
+# History settings
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTCONTROL=ignoreboth:erasedups
+
+# Path additions
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"`}
+                      </pre>
+                    </div>
+
+                    <div className="border-l-4 border-terminal-directory pl-4">
+                      <h4 className="text-terminal-directory font-bold mb-2">အဆင့် ၂.၂: Color Theme (Nord) သတ်မှတ်ခြင်း</h4>
+                      <pre className="bg-terminal-bg p-3 rounded text-xs overflow-x-auto">
+{`# Nord Color Palette
+NORD0='\\033[38;2;46;52;64m'     # Polar Night (dark)
+NORD4='\\033[38;2;216;222;233m'  # Snow Storm (light text)
+NORD8='\\033[38;2;136;192;208m'  # Frost (cyan)
+NORD11='\\033[38;2;191;97;106m'  # Aurora (red)
+NORD14='\\033[38;2;163;190;140m' # Aurora (green)
+RESET='\\033[0m'`}
+                      </pre>
+                    </div>
+
+                    <div className="border-l-4 border-terminal-warning pl-4">
+                      <h4 className="text-terminal-warning font-bold mb-2">အဆင့် ၂.၃: Powerline Prompt ဖန်တီးခြင်း</h4>
+                      <pre className="bg-terminal-bg p-3 rounded text-xs overflow-x-auto">
+{`# Git branch function
+parse_git_branch() {
+    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \\(.*\\)/ \\1/'
+}
+
+# Custom prompt
+PS1='\\[\\033[38;2;136;192;208m\\]\\u\\[\\033[0m\\]'
+PS1+='@\\[\\033[38;2;129;161;193m\\]\\h\\[\\033[0m\\] '
+PS1+='\\[\\033[38;2;143;188;187m\\]\\w\\[\\033[0m\\]'
+PS1+='\\[\\033[38;2;163;190;140m\\]$(parse_git_branch)\\[\\033[0m\\]'
+PS1+='\\n\\[\\033[38;2;180;142;173m\\]❯\\[\\033[0m\\] '
+export PS1`}
+                      </pre>
+                    </div>
+
+                    <div className="border-l-4 border-[#A3BE8C] pl-4">
+                      <h4 className="text-[#A3BE8C] font-bold mb-2">အဆင့် ၂.၄: Aliases Source လုပ်ခြင်း</h4>
+                      <pre className="bg-terminal-bg p-3 rounded text-xs overflow-x-auto">
+{`# Load additional alias files
+[ -f ~/.bash_aliases ] && source ~/.bash_aliases
+[ -f ~/.ai_aliases ] && source ~/.ai_aliases
+[ -f ~/.bash_secrets ] && source ~/.bash_secrets`}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Part 3: Creating Aliases */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="bg-terminal-warning/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-terminal-warning font-bold text-lg">အပိုင်း ၃: Aliases ဖန်တီးနည်း</h3>
+                </div>
+                <div className="p-4 space-y-4">
+                  <p className="text-terminal-fg text-sm">
+                    Aliases များသည် ရှည်လျားသော commands များကို အတိုကောက် အဖြစ် သတ်မှတ်ခြင်း ဖြစ်သည်။
+                  </p>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-terminal-bg rounded-lg p-4">
+                      <h4 className="text-terminal-directory font-bold mb-2">📂 .bash_aliases (Git Commands)</h4>
+                      <pre className="text-xs overflow-x-auto">
+{`# Git shortcuts
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push'
+alias gl='git log --oneline -10'
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gd='git diff'
+alias gst='git stash'
+alias gstp='git stash pop'`}
+                      </pre>
+                    </div>
+
+                    <div className="bg-terminal-bg rounded-lg p-4">
+                      <h4 className="text-terminal-directory font-bold mb-2">📦 Web Development</h4>
+                      <pre className="text-xs overflow-x-auto">
+{`# NPM shortcuts
+alias ni='npm install'
+alias nrd='npm run dev'
+alias nrb='npm run build'
+alias nrt='npm run test'
+
+# Yarn shortcuts
+alias ya='yarn add'
+alias yd='yarn dev'
+
+# Bun shortcuts
+alias bi='bun install'
+alias brd='bun run dev'`}
+                      </pre>
+                    </div>
+
+                    <div className="bg-terminal-bg rounded-lg p-4">
+                      <h4 className="text-terminal-directory font-bold mb-2">🐳 Docker Commands</h4>
+                      <pre className="text-xs overflow-x-auto">
+{`# Docker shortcuts
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias dimg='docker images'
+alias dcu='docker compose up -d'
+alias dcd='docker compose down'
+alias dlog='docker logs -f'
+alias dex='docker exec -it'
+alias dprune='docker system prune -af'`}
+                      </pre>
+                    </div>
+
+                    <div className="bg-terminal-bg rounded-lg p-4">
+                      <h4 className="text-terminal-directory font-bold mb-2">🐍 Python Commands</h4>
+                      <pre className="text-xs overflow-x-auto">
+{`# Python shortcuts
+alias py='python3'
+alias pip='pip3'
+alias venv='python3 -m venv venv'
+alias va='source venv/bin/activate'
+alias pir='pip install -r requirements.txt'
+alias pyt='pytest'
+alias djr='python manage.py runserver'`}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Part 4: AI Aliases */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ delay: 0.3 }}
+              >
+                <div className="bg-[#B48EAD]/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-[#B48EAD] font-bold text-lg">အပိုင်း ၄: AI Tools Aliases (.ai_aliases)</h3>
+                </div>
+                <div className="p-4 space-y-4">
+                  <p className="text-terminal-fg text-sm">
+                    AI coding tools များအတွက် သီးသန့် aliases file ဖန်တီးပါ။
+                  </p>
+
+                  <pre className="bg-terminal-bg p-4 rounded text-xs overflow-x-auto">
+{`# ═══════════════════════════════════════════════════════════
+# AI CODING TOOLS ALIASES
+# ═══════════════════════════════════════════════════════════
+
+# Claude Code (Anthropic)
+alias cc='claude'
+alias ccc='claude --continue'
+alias ccs='claude --sync'
+alias ccv='claude --version'
+
+# Aider (AI Pair Programming)
+alias ai='aider'
+alias aic='aider --claude'
+alias aig='aider --gpt-4'
+alias aio='aider --ollama'
+alias aih='aider --help'
+
+# GitHub Copilot CLI
+alias ghcs='gh copilot suggest'
+alias ghce='gh copilot explain'
+
+# OpenAI Codex CLI
+alias codex='npx @openai/codex'
+
+# Ollama (Local LLMs)
+alias ol='ollama'
+alias olr='ollama run'
+alias oll='ollama list'
+alias olp='ollama pull'
+alias ols='ollama serve'
+
+# Quick AI Commands
+alias ask='gh copilot suggest -t shell'
+alias explain='gh copilot explain'
+
+# Help function
+ai-help() {
+    echo "╭───────────────────────────────────────────────╮"
+    echo "│       🤖 AI Coding Tools Quick Reference      │"
+    echo "╰───────────────────────────────────────────────╯"
+    echo ""
+    echo "  Claude:   cc (claude) | ccc (continue) | ccs (sync)"
+    echo "  Aider:    ai | aic (claude) | aig (gpt-4) | aio (ollama)"
+    echo "  Copilot:  ghcs (suggest) | ghce (explain)"
+    echo "  Ollama:   ol | olr (run) | oll (list) | olp (pull)"
+    echo ""
+}`}
+                  </pre>
+                </div>
+              </motion.div>
+
+              {/* Part 5: Git Configuration */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="bg-[#D08770]/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-[#D08770] font-bold text-lg">အပိုင်း ၅: .gitconfig ဖန်တီးနည်း</h3>
+                </div>
+                <div className="p-4 space-y-4">
+                  <pre className="bg-terminal-bg p-4 rounded text-xs overflow-x-auto">
+{`[user]
+    name = Your Name
+    email = your.email@example.com
+
+[core]
+    editor = code --wait
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+
+[init]
+    defaultBranch = main
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    lg = log --oneline --graph --decorate -10
+    last = log -1 HEAD
+    unstage = reset HEAD --
+    undo = reset --soft HEAD~1
+    amend = commit --amend --no-edit
+    
+[color]
+    ui = auto
+    
+[push]
+    default = current
+    autoSetupRemote = true
+
+[pull]
+    rebase = false`}
+                  </pre>
+                </div>
+              </motion.div>
+
+              {/* Part 6: Install Script */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ delay: 0.5 }}
+              >
+                <div className="bg-[#A3BE8C]/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-[#A3BE8C] font-bold text-lg">အပိုင်း ၆: Install Script ဖန်တီးနည်း</h3>
+                </div>
+                <div className="p-4 space-y-4">
+                  <p className="text-terminal-fg text-sm">
+                    dotfiles များကို မည်သည့် machine မှာမဆို လွယ်ကူစွာ install လုပ်နိုင်ရန် script ဖန်တီးပါ။
+                  </p>
+
+                  <pre className="bg-terminal-bg p-4 rounded text-xs overflow-x-auto">
+{`#!/bin/bash
+
+# ═══════════════════════════════════════════════════════════
+# Dotfiles Installation Script
+# ═══════════════════════════════════════════════════════════
+
+set -e
+
+# Colors
+GREEN='\\033[0;32m'
+YELLOW='\\033[1;33m'
+NC='\\033[0m'
+
+echo "🚀 Installing dotfiles..."
+
+# Get script directory
+DOTFILES_DIR="$(cd "$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+
+# Backup and link function
+backup_and_link() {
+    local source="$1"
+    local target="$2"
+    
+    if [ -f "$target" ]; then
+        echo -e "\${YELLOW}→ Backing up $target\${NC}"
+        mv "$target" "$target.backup.$(date +%Y%m%d_%H%M%S)"
+    fi
+    
+    echo -e "\${GREEN}✓ Linking $source → $target\${NC}"
+    ln -sf "$source" "$target"
+}
+
+# Install dotfiles
+backup_and_link "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
+backup_and_link "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
+backup_and_link "$DOTFILES_DIR/.ai_aliases" "$HOME/.ai_aliases"
+backup_and_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+backup_and_link "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
+
+# Reload bash
+source "$HOME/.bashrc"
+
+echo ""
+echo "✅ Installation complete!"
+echo "   Run: source ~/.bashrc"
+echo "   Type: help-me for commands"`}
+                  </pre>
+                </div>
+              </motion.div>
+
+              {/* Part 7: Secrets Management */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ delay: 0.6 }}
+              >
+                <div className="bg-destructive/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-destructive font-bold text-lg">အပိုင်း ၇: API Keys & Secrets စီမံခန့်ခွဲခြင်း</h3>
+                </div>
+                <div className="p-4 space-y-4">
+                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4 mb-4">
+                    <h4 className="text-destructive font-bold mb-2">⚠️ အရေးကြီးသော သတိပေးချက်</h4>
+                    <p className="text-terminal-comment text-sm">
+                      API keys များကို .bashrc သို့မဟုတ် repository ထဲတွင် မထည့်ပါနှင့်။ 
+                      သီးသန့် .bash_secrets file ဖန်တီးပြီး .gitignore တွင် ထည့်ထားပါ။
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="border-l-4 border-terminal-prompt pl-4">
+                      <h4 className="text-terminal-prompt font-bold mb-2">၁. .bash_secrets.template ဖန်တီးပါ</h4>
+                      <pre className="bg-terminal-bg p-3 rounded text-xs overflow-x-auto">
+{`# ~/.bash_secrets - Keep this file private!
+# Copy to ~/.bash_secrets and fill in your keys
+
+# AI API Keys
+export ANTHROPIC_API_KEY='your-anthropic-key'
+export OPENAI_API_KEY='your-openai-key'
+export GOOGLE_API_KEY='your-google-key'
+
+# Aider settings
+export AIDER_MODEL='claude-3-5-sonnet-20241022'`}
+                      </pre>
+                    </div>
+
+                    <div className="border-l-4 border-terminal-directory pl-4">
+                      <h4 className="text-terminal-directory font-bold mb-2">၂. .gitignore_global တွင် ထည့်ပါ</h4>
+                      <pre className="bg-terminal-bg p-3 rounded text-xs overflow-x-auto">
+{`# Secrets - Never commit these!
+.bash_secrets
+.env.local
+*.secret
+*_secret*`}
+                      </pre>
+                    </div>
+
+                    <div className="border-l-4 border-terminal-warning pl-4">
+                      <h4 className="text-terminal-warning font-bold mb-2">၃. GitHub Codespaces အတွက် Secrets Setup</h4>
+                      <p className="text-terminal-comment text-sm mb-2">
+                        GitHub Settings → Codespaces → Secrets တွင် API keys များကို ထည့်ပါ။
+                        Codespaces က အလိုအလျောက် environment variables အဖြစ် inject လုပ်ပေးမည်။
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Part 8: Directory Structure */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg border border-terminal-border overflow-hidden"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ delay: 0.7 }}
+              >
+                <div className="bg-terminal-prompt/20 px-4 py-3 border-b border-terminal-border">
+                  <h3 className="text-terminal-prompt font-bold text-lg">အပိုင်း ၈: နောက်ဆုံး Folder Structure</h3>
+                </div>
+                <div className="p-4">
+                  <pre className="bg-terminal-bg p-4 rounded text-sm overflow-x-auto">
+{`~/dotfiles/
+├── .bashrc                 # Main shell config
+├── .bash_aliases           # General aliases (git, npm, docker)
+├── .ai_aliases             # AI tools aliases
+├── .bash_secrets.template  # API keys template
+├── .gitconfig              # Git configuration
+├── .gitignore_global       # Global git ignores
+├── install.sh              # Main installer
+├── install-ai-tools.sh     # AI CLI installer
+└── README.md               # Documentation
+
+~/ (Home directory after install)
+├── .bashrc          → ~/dotfiles/.bashrc
+├── .bash_aliases    → ~/dotfiles/.bash_aliases
+├── .ai_aliases      → ~/dotfiles/.ai_aliases
+├── .gitconfig       → ~/dotfiles/.gitconfig
+├── .gitignore_global→ ~/dotfiles/.gitignore_global
+└── .bash_secrets    # Created manually (not in git)`}
+                  </pre>
+                </div>
+              </motion.div>
+
+              {/* Summary */}
+              <motion.div 
+                className="bg-terminal-directory/10 border border-terminal-directory/30 rounded-lg p-6"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
+                transition={{ delay: 0.8 }}
+              >
+                <h3 className="text-terminal-directory font-bold text-lg mb-4">✅ အကျဉ်းချုပ် Checklist</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>.bashrc (environment, prompt, sources)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>.bash_aliases (general shortcuts)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>.ai_aliases (AI tools)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>.gitconfig (Git settings)</span>
+                    </li>
+                  </ul>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>.gitignore_global</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>.bash_secrets.template</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>install.sh script</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="text-terminal-prompt">☐</span>
+                      <span>README.md documentation</span>
+                    </li>
+                  </ul>
+                </div>
               </motion.div>
             </TabsContent>
 
