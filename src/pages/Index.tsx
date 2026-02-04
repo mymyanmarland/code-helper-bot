@@ -191,6 +191,82 @@ chmod +x install-ai-tools.sh
           </div>
         </div>
 
+        {/* Myanmar Guide */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 text-terminal-directory">
+            📖 မြန်မာလို အသုံးပြုနည်း လမ်းညွှန်
+          </h2>
+          <div className="bg-terminal-header border border-terminal-border rounded-lg p-6 space-y-6">
+            {/* Step 1 */}
+            <div className="border-l-4 border-terminal-prompt pl-4">
+              <h3 className="text-terminal-prompt font-bold mb-2">အဆင့် ၁: Repository ကို Clone လုပ်ပါ</h3>
+              <p className="text-terminal-comment mb-2">
+                Terminal ကိုဖွင့်ပြီး အောက်ပါ command ကို ရိုက်ထည့်ပါ။ သင့် home directory မှာ dotfiles folder တစ်ခု ဖန်တီးပေးပါမည်။
+              </p>
+              <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+                git clone https://github.com/mymyanmarland/code-helper-bot.git ~/dotfiles
+              </pre>
+            </div>
+
+            {/* Step 2 */}
+            <div className="border-l-4 border-terminal-directory pl-4">
+              <h3 className="text-terminal-directory font-bold mb-2">အဆင့် ၂: Dotfiles folder ထဲသို့ ဝင်ပါ</h3>
+              <p className="text-terminal-comment mb-2">
+                Clone လုပ်ပြီးရင် dotfiles folder ထဲကို ဝင်ပါ။
+              </p>
+              <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+                cd ~/dotfiles/dotfiles
+              </pre>
+            </div>
+
+            {/* Step 3 */}
+            <div className="border-l-4 border-terminal-warning pl-4">
+              <h3 className="text-terminal-warning font-bold mb-2">အဆင့် ၃: Install Script ကို Run ပါ</h3>
+              <p className="text-terminal-comment mb-2">
+                install.sh file ကို executable လုပ်ပြီး run ပါ။ ဒါက .bashrc, .gitconfig စတာတွေကို setup လုပ်ပေးပါမည်။
+              </p>
+              <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+{`chmod +x install.sh
+./install.sh`}
+              </pre>
+            </div>
+
+            {/* Step 4 */}
+            <div className="border-l-4 border-[#A3BE8C] pl-4">
+              <h3 className="text-[#A3BE8C] font-bold mb-2">အဆင့် ၄: AI Tools များကို Install လုပ်ပါ (Optional)</h3>
+              <p className="text-terminal-comment mb-2">
+                Claude Code, Aider, GitHub Copilot စတဲ့ AI tools တွေကို သုံးချင်ရင် ဒီ script ကို run ပါ။
+              </p>
+              <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+{`chmod +x install-ai-tools.sh
+./install-ai-tools.sh`}
+              </pre>
+            </div>
+
+            {/* Step 5 */}
+            <div className="border-l-4 border-[#B48EAD] pl-4">
+              <h3 className="text-[#B48EAD] font-bold mb-2">အဆင့် ၅: Terminal ကို Reload လုပ်ပါ</h3>
+              <p className="text-terminal-comment mb-2">
+                အပြောင်းအလဲများ အသက်ဝင်ဖို့ terminal ကို ပိတ်ပြီး ပြန်ဖွင့်ပါ သို့မဟုတ် အောက်ပါ command ကို run ပါ။
+              </p>
+              <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+                source ~/.bashrc
+              </pre>
+            </div>
+
+            {/* Tips */}
+            <div className="bg-terminal-bg/50 rounded-lg p-4 mt-4">
+              <h4 className="text-terminal-prompt font-bold mb-2">💡 အကြံပြုချက်များ</h4>
+              <ul className="text-terminal-comment text-sm space-y-2">
+                <li>• <code className="text-terminal-warning">help-me</code> ကို ရိုက်ပြီး command အားလုံးကို ကြည့်နိုင်ပါတယ်</li>
+                <li>• <code className="text-terminal-warning">ai-help</code> ကို ရိုက်ပြီး AI tools commands တွေကို ကြည့်နိုင်ပါတယ်</li>
+                <li>• API keys တွေကို <code className="text-terminal-warning">~/.bash_secrets</code> file ထဲမှာ သိမ်းပါ</li>
+                <li>• GitHub Codespaces မှာလည်း တိုက်ရိုက် အသုံးပြုနိုင်ပါတယ်</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* Files Included */}
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8 text-terminal-directory">
