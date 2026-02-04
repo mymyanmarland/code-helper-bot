@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Copy, Check, Github, Terminal, Download, ExternalLink } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AIBackground from '@/components/AIBackground';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -60,8 +61,9 @@ chmod +x install-ai-tools.sh
   ];
 
   return (
-    <div className="min-h-screen bg-terminal-bg text-terminal-fg font-mono overflow-hidden">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-terminal-bg text-terminal-fg font-mono overflow-hidden relative">
+      <AIBackground />
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
         <motion.div 
           className="text-center mb-8"
