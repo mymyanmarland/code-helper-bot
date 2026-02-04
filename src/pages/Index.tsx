@@ -15,6 +15,10 @@ cd ~/dotfiles/dotfiles
 chmod +x install.sh
 ./install.sh`;
 
+  const aiToolsCommand = `cd ~/dotfiles/dotfiles
+chmod +x install-ai-tools.sh
+./install-ai-tools.sh`;
+
   const features = [
     { icon: '🎨', title: 'Nord Theme', desc: 'Arctic-inspired color palette' },
     { icon: '⚡', title: 'Powerline Prompt', desc: 'Git, Python, Node, Docker info' },
@@ -70,6 +74,29 @@ chmod +x install.sh
             <pre className="text-terminal-prompt overflow-x-auto">
               <code>{installCommand}</code>
             </pre>
+          </div>
+
+          {/* AI Tools Install */}
+          <div className="bg-terminal-header rounded-lg p-6 mb-12 text-left border border-terminal-border">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-terminal-comment text-sm">🤖 AI Tools Install (Optional)</span>
+              <button
+                onClick={() => copyToClipboard(aiToolsCommand, 'ai-tools')}
+                className="flex items-center gap-2 px-3 py-1 rounded bg-terminal-border hover:bg-terminal-comment/20 transition-colors"
+              >
+                {copiedSection === 'ai-tools' ? (
+                  <><Check className="w-4 h-4 text-terminal-directory" /> Copied!</>
+                ) : (
+                  <><Copy className="w-4 h-4" /> Copy</>
+                )}
+              </button>
+            </div>
+            <pre className="text-terminal-prompt overflow-x-auto">
+              <code>{aiToolsCommand}</code>
+            </pre>
+            <p className="text-terminal-comment text-sm mt-3">
+              Claude Code, Aider, GitHub Copilot, Ollama နှင့် အခြား AI tools များကို install လုပ်ပေးပါမည်
+            </p>
           </div>
 
           {/* Action Buttons */}
