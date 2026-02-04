@@ -435,6 +435,87 @@ chmod +x install-ai-tools.sh
                 </ul>
               </div>
             </div>
+
+            {/* Uninstall Section */}
+            <div className="mt-8 pt-6 border-t border-terminal-border">
+              <h2 className="text-xl font-bold text-destructive mb-4">🗑️ Dotfiles ဖျက်နည်း (Uninstall)</h2>
+              <p className="text-terminal-comment mb-4 text-sm">
+                Install လုပ်ထားတဲ့ dotfiles တွေကို ပြန်ဖျက်ပြီး မူလ settings တွေကို ပြန်ယူချင်ရင် အောက်ပါ အဆင့်တွေ လုပ်ပါ။
+              </p>
+              
+              <div className="space-y-4">
+                <div className="border-l-4 border-destructive pl-4 bg-terminal-header rounded-r-lg p-4">
+                  <h3 className="text-destructive font-bold mb-2">အဆင့် ၁: Backup Files များကို ပြန်ယူပါ</h3>
+                  <p className="text-terminal-comment mb-2 text-sm">
+                    Install script က သင့်ရဲ့ မူလ files တွေကို <code className="text-terminal-warning">.backup</code> extension နဲ့ သိမ်းထားပါတယ်။
+                  </p>
+                  <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+{`# မူလ .bashrc ကို ပြန်ယူပါ
+cp ~/.bashrc.backup ~/.bashrc
+
+# မူလ .gitconfig ကို ပြန်ယူပါ (ရှိရင်)
+cp ~/.gitconfig.backup ~/.gitconfig`}
+                  </pre>
+                </div>
+
+                <div className="border-l-4 border-terminal-warning pl-4 bg-terminal-header rounded-r-lg p-4">
+                  <h3 className="text-terminal-warning font-bold mb-2">အဆင့် ၂: Dotfiles Folder ကို ဖျက်ပါ</h3>
+                  <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+                    rm -rf ~/dotfiles
+                  </pre>
+                </div>
+
+                <div className="border-l-4 border-terminal-directory pl-4 bg-terminal-header rounded-r-lg p-4">
+                  <h3 className="text-terminal-directory font-bold mb-2">အဆင့် ၃: AI Tools များကို ဖျက်ပါ (Optional)</h3>
+                  <p className="text-terminal-comment mb-2 text-sm">
+                    Install လုပ်ထားတဲ့ AI tools တွေကို ဖျက်ချင်ရင်:
+                  </p>
+                  <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+{`# Claude Code ဖျက်ရန်
+npm uninstall -g @anthropic-ai/claude-code
+
+# Aider ဖျက်ရန်
+pip uninstall aider-chat
+
+# GitHub Copilot CLI ဖျက်ရန်
+gh extension remove github/gh-copilot
+
+# Ollama ဖျက်ရန် (Linux)
+sudo rm /usr/local/bin/ollama
+rm -rf ~/.ollama`}
+                  </pre>
+                </div>
+
+                <div className="border-l-4 border-[#B48EAD] pl-4 bg-terminal-header rounded-r-lg p-4">
+                  <h3 className="text-[#B48EAD] font-bold mb-2">အဆင့် ၄: API Keys များကို ဖျက်ပါ</h3>
+                  <p className="text-terminal-comment mb-2 text-sm">
+                    ~/.bash_secrets file ထဲက API keys တွေကို ဖျက်ပါ။
+                  </p>
+                  <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+                    rm ~/.bash_secrets
+                  </pre>
+                </div>
+
+                <div className="border-l-4 border-terminal-prompt pl-4 bg-terminal-header rounded-r-lg p-4">
+                  <h3 className="text-terminal-prompt font-bold mb-2">အဆင့် ၅: Terminal ကို Reload လုပ်ပါ</h3>
+                  <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+                    source ~/.bashrc
+                  </pre>
+                  <p className="text-terminal-comment mt-2 text-sm">
+                    သို့မဟုတ် Terminal ကို ပိတ်ပြီး ပြန်ဖွင့်ပါ။
+                  </p>
+                </div>
+
+                <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
+                  <h4 className="text-destructive font-bold mb-2">⚠️ သတိပြုရန်</h4>
+                  <ul className="text-terminal-comment text-sm space-y-1">
+                    <li>• Backup files မရှိရင် default .bashrc ကို ဖန်တီးရပါမယ်</li>
+                    <li>• API keys ဖျက်ပြီးရင် ပြန်ရယူလို့ မရတော့ပါ၊ သိမ်းထားပါ</li>
+                    <li>• ဖျက်ခြင်းမပြုမီ လိုအပ်တဲ့ settings တွေကို backup လုပ်ထားပါ</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </TabsContent>
 
           {/* API Keys Tab */}
