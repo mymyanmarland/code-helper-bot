@@ -10,8 +10,8 @@ const Index = () => {
     setTimeout(() => setCopiedSection(null), 2000);
   };
 
-  const installCommand = `git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+  const installCommand = `git clone https://github.com/mymyanmarland/code-helper-bot.git ~/dotfiles
+cd ~/dotfiles/dotfiles
 chmod +x install.sh
 ./install.sh`;
 
@@ -83,7 +83,7 @@ chmod +x install.sh
               Download .bashrc
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/mymyanmarland/code-helper-bot"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 border-2 border-terminal-border rounded-lg hover:border-terminal-comment transition-colors"
