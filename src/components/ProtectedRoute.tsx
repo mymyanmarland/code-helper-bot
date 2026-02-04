@@ -8,8 +8,9 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading, rolesLoading, isAdmin } = useAuth();
 
+  // Wait for auth to load
   if (loading) {
     return (
       <div className="min-h-screen bg-terminal-bg flex items-center justify-center">
@@ -18,12 +19,24 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
     );
   }
 
+  // Not logged in
   if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  if (requireAdmin && !isAdmin) {
-    return <Navigate to="/" replace />;
+  // For admin routes, wait for roles to load before deciding
+  if (requireAdmin) {
+    if (rolesLoading) {
+      return (
+        <div className="min-h-screen bg-terminal-bg flex items-center justify-center">
+          <Loader2 className="w-8 h-8 text-terminal-prompt animate-spin" />
+        </div>
+      );
+    }
+    
+    if (!isAdmin) {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;
