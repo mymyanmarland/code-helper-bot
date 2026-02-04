@@ -179,6 +179,7 @@ export const useTerminal = () => {
 
     switch (command.toLowerCase()) {
       case 'help':
+      case 'help-me':
         output.push(`
 Available Commands:
   help              Show this help message
@@ -198,8 +199,162 @@ Available Commands:
   neofetch          Display system info with ASCII art
   cowsay [text]     Make a cow say something
   fortune           Display a random fortune
+  ai-help           Show AI tools commands
   exit              Exit message
+
+Aliases (from dotfiles):
+  gs                git status
+  ga                git add
+  gc                git commit
+  gp                git push
+  nrd               npm run dev
+  nrb               npm run build
+  dcu               docker compose up
+  dcd               docker compose down
 `);
+        break;
+
+      case 'ai-help':
+        output.push(`
+🤖 AI Coding Tools - Quick Reference
+═══════════════════════════════════════
+
+CLAUDE CODE:
+  cc                Launch Claude Code
+  claude-fix        Fix code issues
+  claude-review     Review code
+  claude-explain    Explain code
+
+AIDER:
+  ai                Launch Aider
+  aider-claude      Aider with Claude
+  aider-gpt4        Aider with GPT-4
+
+GITHUB COPILOT:
+  ghcs              Copilot suggest
+  ghce              Copilot explain
+  explain-last      Explain last command
+
+LOCAL LLMS:
+  ollama            Ollama CLI
+  llama             Run Llama model
+  codellama         Run CodeLlama
+
+UTILITIES:
+  ask-ai [q]        Quick AI question
+  review-changes    Review git changes
+  fix-code [file]   Auto-fix code issues
+  generate-tests    Generate tests
+
+Run install-ai-tools.sh to install these tools!
+`);
+        break;
+
+      case 'cc':
+      case 'claude':
+        output.push('🤖 Launching Claude Code...');
+        output.push('claude --help');
+        output.push('');
+        output.push('Claude Code is an AI coding assistant by Anthropic.');
+        output.push('Install: npm install -g @anthropic-ai/claude-code');
+        output.push('Set: export ANTHROPIC_API_KEY="your-key"');
+        break;
+
+      case 'ai':
+      case 'aider':
+        output.push('🤖 Launching Aider...');
+        output.push('aider --help');
+        output.push('');
+        output.push('Aider is an AI pair programming tool.');
+        output.push('Install: pip3 install aider-chat');
+        output.push('Uses ANTHROPIC_API_KEY or OPENAI_API_KEY');
+        break;
+
+      case 'ghcs':
+        output.push('🤖 GitHub Copilot Suggest');
+        output.push('Usage: ghcs "your question"');
+        output.push('');
+        output.push('Install: gh extension install github/gh-copilot');
+        output.push('Auth: gh auth login');
+        break;
+
+      case 'ghce':
+        output.push('🤖 GitHub Copilot Explain');
+        output.push('Usage: ghce "command to explain"');
+        break;
+
+      case 'gs':
+        output.push('→ git status');
+        output.push('On branch main');
+        output.push('nothing to commit, working tree clean');
+        break;
+
+      case 'ga':
+        output.push('→ git add .');
+        break;
+
+      case 'gc':
+        output.push('→ git commit');
+        output.push('Usage: gc -m "commit message"');
+        break;
+
+      case 'gp':
+        output.push('→ git push');
+        break;
+
+      case 'gl':
+        output.push('→ git pull');
+        break;
+
+      case 'gco':
+        output.push('→ git checkout');
+        output.push('Usage: gco branch-name');
+        break;
+
+      case 'nrd':
+        output.push('→ npm run dev');
+        output.push('Starting development server...');
+        output.push('  ➜  Local:   http://localhost:5173/');
+        break;
+
+      case 'nrb':
+        output.push('→ npm run build');
+        output.push('Building for production...');
+        break;
+
+      case 'nri':
+        output.push('→ npm install');
+        break;
+
+      case 'yrd':
+        output.push('→ yarn dev');
+        output.push('Starting development server...');
+        break;
+
+      case 'brd':
+        output.push('→ bun run dev');
+        output.push('Starting development server...');
+        break;
+
+      case 'dcu':
+        output.push('→ docker compose up -d');
+        output.push('Starting containers...');
+        break;
+
+      case 'dcd':
+        output.push('→ docker compose down');
+        output.push('Stopping containers...');
+        break;
+
+      case 'dps':
+        output.push('→ docker ps');
+        output.push('CONTAINER ID   IMAGE   STATUS   PORTS   NAMES');
+        break;
+
+      case 'ollama':
+        output.push('🦙 Ollama - Run local LLMs');
+        output.push('Install: curl -fsSL https://ollama.ai/install.sh | sh');
+        output.push('Usage: ollama run llama2');
         break;
 
       case 'clear':
