@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, User, Loader2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,9 +6,11 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 import ReactMarkdown from 'react-markdown';
 
 interface Message {
+  id?: string;
   role: 'user' | 'assistant';
   content: string;
 }
@@ -20,19 +22,80 @@ const AIChatbot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
+  // Load chat history from database
+  const loadChatHistory = useCallback(async () => {
+    if (!user) return;
+    
+    setIsLoadingHistory(true);
+    try {
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .select('id, role, content, created_at')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true })
+        .limit(100);
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        setMessages(data.map(msg => ({
+          id: msg.id,
+          role: msg.role as 'user' | 'assistant',
+          content: msg.content
+        })));
+      }
+    } catch (error) {
+      console.error('Error loading chat history:', error);
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  }, [user]);
+
+  // Load history when chat opens or user changes
+  useEffect(() => {
+    if (isOpen && user) {
+      loadChatHistory();
+    }
+  }, [isOpen, user, loadChatHistory]);
+
+  // Scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
+  // Save message to database
+  const saveMessage = async (role: 'user' | 'assistant', content: string) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('chat_messages')
+        .insert({
+          user_id: user.id,
+          role,
+          content
+        });
+
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
+  };
+
   const streamChat = async (userMessage: string) => {
     const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
     setMessages(newMessages);
     setIsLoading(true);
+
+    // Save user message to database
+    await saveMessage('user', userMessage);
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -126,6 +189,8 @@ const AIChatbot = () => {
 
       if (assistantContent) {
         setMessages([...newMessages, { role: 'assistant', content: assistantContent }]);
+        // Save assistant message to database
+        await saveMessage('assistant', assistantContent);
       }
     } catch (error) {
       console.error('Chat error:', error);
@@ -148,8 +213,34 @@ const AIChatbot = () => {
     await streamChat(userMessage);
   };
 
-  const clearChat = () => {
-    setMessages([]);
+  const clearChat = async () => {
+    if (!user) {
+      setMessages([]);
+      return;
+    }
+
+    try {
+      // Delete all messages for this user from database
+      const { error } = await supabase
+        .from('chat_messages')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setMessages([]);
+      toast({
+        title: "Chat cleared",
+        description: "Chat history ဖျက်ပြီးပါပြီ",
+      });
+    } catch (error) {
+      console.error('Error clearing chat:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Chat history ဖျက်ရာတွင် မအောင်မြင်ပါ",
+      });
+    }
   };
 
   return (
@@ -218,42 +309,48 @@ const AIChatbot = () => {
             {/* Messages */}
             <ScrollArea className="flex-1 p-4" ref={scrollRef}>
               <div className="space-y-4">
-                {messages.length === 0 && (
+                {isLoadingHistory ? (
+                  <div className="text-center text-terminal-comment text-sm py-8">
+                    <Loader2 className="w-6 h-6 mx-auto mb-2 animate-spin" />
+                    <p>Loading chat history...</p>
+                  </div>
+                ) : messages.length === 0 ? (
                   <div className="text-center text-terminal-comment text-sm py-8">
                     <Bot className="w-12 h-12 mx-auto mb-3 opacity-50" />
                     <p>မင်္ဂလာပါ! ကျွန်ုပ်က Dotfiles AI Assistant ပါ။</p>
                     <p className="mt-1">Terminal, Git, AI tools အကြောင်း မေးလို့ရပါတယ်။</p>
                   </div>
+                ) : (
+                  messages.map((msg, i) => (
+                    <motion.div
+                      key={msg.id || i}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
+                    >
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        msg.role === 'user' 
+                          ? 'bg-terminal-prompt text-terminal-bg' 
+                          : 'bg-terminal-border text-terminal-fg'
+                      }`}>
+                        {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                      </div>
+                      <div className={`max-w-[75%] rounded-lg px-3 py-2 ${
+                        msg.role === 'user'
+                          ? 'bg-terminal-prompt text-terminal-bg'
+                          : 'bg-terminal-border text-terminal-fg'
+                      }`}>
+                        {msg.role === 'assistant' ? (
+                          <div className="prose prose-sm prose-invert max-w-none text-sm">
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                          </div>
+                        ) : (
+                          <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))
                 )}
-                {messages.map((msg, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
-                  >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      msg.role === 'user' 
-                        ? 'bg-terminal-prompt text-terminal-bg' 
-                        : 'bg-terminal-border text-terminal-fg'
-                    }`}>
-                      {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
-                    </div>
-                    <div className={`max-w-[75%] rounded-lg px-3 py-2 ${
-                      msg.role === 'user'
-                        ? 'bg-terminal-prompt text-terminal-bg'
-                        : 'bg-terminal-border text-terminal-fg'
-                    }`}>
-                      {msg.role === 'assistant' ? (
-                        <div className="prose prose-sm prose-invert max-w-none text-sm">
-                          <ReactMarkdown>{msg.content}</ReactMarkdown>
-                        </div>
-                      ) : (
-                        <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
                 {isLoading && messages[messages.length - 1]?.role === 'user' && (
                   <motion.div
                     initial={{ opacity: 0 }}
