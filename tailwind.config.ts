@@ -13,12 +13,28 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        mono: ["'JetBrains Mono'", "'Fira Code'", "monospace"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        terminal: {
+          bg: "hsl(var(--terminal-bg))",
+          fg: "hsl(var(--terminal-fg))",
+          prompt: "hsl(var(--terminal-prompt))",
+          cursor: "hsl(var(--terminal-cursor))",
+          selection: "hsl(var(--terminal-selection))",
+          header: "hsl(var(--terminal-header))",
+          border: "hsl(var(--terminal-border))",
+          directory: "hsl(var(--terminal-directory))",
+          error: "hsl(var(--terminal-error))",
+          warning: "hsl(var(--terminal-warning))",
+          comment: "hsl(var(--terminal-comment))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -80,10 +96,15 @@ export default {
             height: "0",
           },
         },
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        blink: "blink 1s step-end infinite",
       },
     },
   },
