@@ -62,6 +62,11 @@ if [ -f "$DOTFILES_DIR/.bash_aliases" ]; then
     create_link "$DOTFILES_DIR/.bash_aliases" "$HOME/.bash_aliases"
 fi
 
+# Install .ai_aliases
+if [ -f "$DOTFILES_DIR/.ai_aliases" ]; then
+    create_link "$DOTFILES_DIR/.ai_aliases" "$HOME/.ai_aliases"
+fi
+
 # Install .gitconfig
 if [ -f "$DOTFILES_DIR/.gitconfig" ]; then
     create_link "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
@@ -83,6 +88,7 @@ echo '╠═══════════════════════�
 echo '║  Installed:                                                  ║'
 echo '║    • .bashrc        (Powerline prompt + Nord theme)          ║'
 echo '║    • .bash_aliases  (Additional aliases)                     ║'
+echo '║    • .ai_aliases    (AI coding tools: Claude, Aider, etc)    ║'
 echo '║    • .gitconfig     (Git settings + aliases)                 ║'
 echo '║    • .gitignore_global (Global ignore patterns)              ║'
 echo '║                                                              ║'
@@ -90,7 +96,19 @@ echo '║  Next steps:                                                 ║'
 echo '║    1. Update .gitconfig with your name/email                 ║'
 echo '║    2. Run: source ~/.bashrc                                  ║'
 echo '║    3. Type: help-me for command reference                    ║'
+echo '║    4. Type: ai-help for AI tools reference                   ║'
+echo '║    5. Run: ./install-ai-tools.sh to install AI CLIs          ║'
 echo '╚══════════════════════════════════════════════════════════════╝'
+echo -e "${NC}"
+
+# Reminder to update git config
+echo -e "${YELLOW}⚠️  Don't forget to update your Git credentials:${NC}"
+echo -e "   git config --global user.name \"Your Name\""
+echo -e "   git config --global user.email \"your.email@example.com\""
+echo ""
+echo -e "${YELLOW}⚠️  To install AI coding tools, run:${NC}"
+echo -e "   ./install-ai-tools.sh"
+echo ""
 echo -e "${NC}"
 
 # Reminder to update git config

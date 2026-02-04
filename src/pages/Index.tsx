@@ -18,18 +18,18 @@ chmod +x install.sh
   const features = [
     { icon: '🎨', title: 'Nord Theme', desc: 'Arctic-inspired color palette' },
     { icon: '⚡', title: 'Powerline Prompt', desc: 'Git, Python, Node, Docker info' },
+    { icon: '🤖', title: 'AI Tools', desc: 'Claude, Aider, Copilot, Ollama' },
     { icon: '🔧', title: 'Git Aliases', desc: '50+ shortcuts for Git workflow' },
     { icon: '📦', title: 'NPM/Yarn/Bun', desc: 'Web development shortcuts' },
-    { icon: '🐍', title: 'Python Tools', desc: 'Venv, pip, Django, FastAPI' },
     { icon: '🐳', title: 'Docker & K8s', desc: 'Container management aliases' },
   ];
 
   const quickCommands = [
+    { cmd: 'cc', desc: 'claude code' },
+    { cmd: 'ai', desc: 'aider' },
+    { cmd: 'ghcs', desc: 'copilot suggest' },
     { cmd: 'gs', desc: 'git status' },
-    { cmd: 'gp', desc: 'git push' },
-    { cmd: 'gcob', desc: 'new branch' },
     { cmd: 'nrd', desc: 'npm run dev' },
-    { cmd: 'va', desc: 'activate venv' },
     { cmd: 'dcu', desc: 'docker compose up' },
   ];
 
@@ -129,7 +129,7 @@ chmod +x install.sh
             </div>
           </div>
           <p className="text-center text-terminal-comment mt-4">
-            Type <code className="text-terminal-warning">help-me</code> in terminal for full reference
+            Type <code className="text-terminal-warning">help-me</code> or <code className="text-terminal-warning">ai-help</code> in terminal for full reference
           </p>
         </div>
 
@@ -172,12 +172,15 @@ chmod +x install.sh
           <div className="bg-terminal-header border border-terminal-border rounded-lg p-6">
             <pre className="text-terminal-comment">
 {`dotfiles/
-├── .bashrc           # Main bash config with prompt & aliases
-├── .bash_aliases     # Additional aliases
-├── .gitconfig        # Git configuration & aliases
-├── .gitignore_global # Global git ignore patterns
-├── install.sh        # Installation script
-└── README.md         # Documentation`}
+├── .bashrc              # Main config + prompt + aliases
+├── .bash_aliases        # Additional aliases
+├── .ai_aliases          # AI tools: Claude, Aider, Copilot
+├── .bash_secrets.template # API keys template
+├── .gitconfig           # Git configuration + aliases
+├── .gitignore_global    # Global git ignore patterns
+├── install.sh           # Main installation script
+├── install-ai-tools.sh  # AI CLI tools installer
+└── README.md            # Documentation`}
             </pre>
           </div>
         </div>
