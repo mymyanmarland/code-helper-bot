@@ -1,6 +1,27 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Copy, Check, Github, Terminal, Download, ExternalLink } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1 }
+};
 
 const Index = () => {
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
@@ -39,174 +60,292 @@ chmod +x install-ai-tools.sh
   ];
 
   return (
-    <div className="min-h-screen bg-terminal-bg text-terminal-fg font-mono">
+    <div className="min-h-screen bg-terminal-bg text-terminal-fg font-mono overflow-hidden">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
+        <motion.div 
+          className="text-center mb-8"
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div 
+            className="flex justify-center mb-4"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             <Terminal className="w-12 h-12 text-terminal-prompt" />
-          </div>
+          </motion.div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-terminal-fg">
             ငါ့ရဲ့စိတ်ကြိုက် Dotfiles
           </h1>
           <p className="text-terminal-comment">
             Bash configuration with Powerline prompt, Nord theme, and 100+ aliases
           </p>
-        </div>
+        </motion.div>
 
         {/* Tabs */}
-        <Tabs defaultValue="install" className="max-w-4xl mx-auto">
-          <TabsList className="grid w-full grid-cols-5 bg-terminal-header border border-terminal-border mb-6">
-            <TabsTrigger value="install" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm">
-              🚀 Install
-            </TabsTrigger>
-            <TabsTrigger value="features" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm">
-              ✨ Features
-            </TabsTrigger>
-            <TabsTrigger value="guide" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm">
-              📖 Guide
-            </TabsTrigger>
-            <TabsTrigger value="api-keys" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm">
-              🔑 API Keys
-            </TabsTrigger>
-            <TabsTrigger value="files" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm">
-              📁 Files
-            </TabsTrigger>
-          </TabsList>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Tabs defaultValue="install" className="max-w-4xl mx-auto">
+            <TabsList className="grid w-full grid-cols-5 bg-terminal-header border border-terminal-border mb-6">
+              <TabsTrigger value="install" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
+                🚀 Install
+              </TabsTrigger>
+              <TabsTrigger value="features" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
+                ✨ Features
+              </TabsTrigger>
+              <TabsTrigger value="guide" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
+                📖 Guide
+              </TabsTrigger>
+              <TabsTrigger value="api-keys" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
+                🔑 API Keys
+              </TabsTrigger>
+              <TabsTrigger value="files" className="data-[state=active]:bg-terminal-prompt data-[state=active]:text-terminal-bg text-xs md:text-sm transition-all duration-300">
+                📁 Files
+              </TabsTrigger>
+            </TabsList>
 
-          {/* Install Tab */}
-          <TabsContent value="install" className="space-y-6">
-            {/* Quick Install */}
-            <div className="bg-terminal-header rounded-lg p-6 border border-terminal-border">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-terminal-comment text-sm">Quick Install</span>
-                <button
-                  onClick={() => copyToClipboard(installCommand, 'install')}
-                  className="flex items-center gap-2 px-3 py-1 rounded bg-terminal-border hover:bg-terminal-comment/20 transition-colors"
-                >
-                  {copiedSection === 'install' ? (
-                    <><Check className="w-4 h-4 text-terminal-directory" /> Copied!</>
-                  ) : (
-                    <><Copy className="w-4 h-4" /> Copy</>
-                  )}
-                </button>
-              </div>
-              <pre className="text-terminal-prompt overflow-x-auto text-sm">
-                <code>{installCommand}</code>
-              </pre>
-            </div>
-
-            {/* AI Tools Install */}
-            <div className="bg-terminal-header rounded-lg p-6 border border-terminal-border">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-terminal-comment text-sm">🤖 AI Tools Install (Optional)</span>
-                <button
-                  onClick={() => copyToClipboard(aiToolsCommand, 'ai-tools')}
-                  className="flex items-center gap-2 px-3 py-1 rounded bg-terminal-border hover:bg-terminal-comment/20 transition-colors"
-                >
-                  {copiedSection === 'ai-tools' ? (
-                    <><Check className="w-4 h-4 text-terminal-directory" /> Copied!</>
-                  ) : (
-                    <><Copy className="w-4 h-4" /> Copy</>
-                  )}
-                </button>
-              </div>
-              <pre className="text-terminal-prompt overflow-x-auto text-sm">
-                <code>{aiToolsCommand}</code>
-              </pre>
-              <p className="text-terminal-comment text-sm mt-3">
-                Claude Code, Aider, GitHub Copilot, Ollama နှင့် အခြား AI tools များကို install လုပ်ပေးပါမည်
-              </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="/dotfiles/.bashrc"
-                download
-                className="flex items-center gap-2 px-6 py-3 bg-terminal-prompt text-terminal-bg rounded-lg font-bold hover:opacity-90 transition-opacity"
+            {/* Install Tab */}
+            <TabsContent value="install" className="space-y-6">
+              {/* Quick Install */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg p-6 border border-terminal-border hover:border-terminal-prompt/50 transition-colors duration-300"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ duration: 0.4 }}
+                whileHover={{ scale: 1.01 }}
               >
-                <Download className="w-5 h-5" />
-                Download .bashrc
-              </a>
-              <a
-                href="https://github.com/mymyanmarland/code-helper-bot"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 border-2 border-terminal-border rounded-lg hover:border-terminal-comment transition-colors"
-              >
-                <Github className="w-5 h-5" />
-                View on GitHub
-              </a>
-            </div>
-          </TabsContent>
-
-          {/* Features Tab */}
-          <TabsContent value="features" className="space-y-8">
-            {/* Features Grid */}
-            <div>
-              <h2 className="text-xl font-bold mb-4 text-terminal-directory">✨ Features Included</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {features.map((feature, i) => (
-                  <div
-                    key={i}
-                    className="bg-terminal-header border border-terminal-border rounded-lg p-4 hover:border-terminal-prompt transition-colors"
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-terminal-comment text-sm">Quick Install</span>
+                  <motion.button
+                    onClick={() => copyToClipboard(installCommand, 'install')}
+                    className="flex items-center gap-2 px-3 py-1 rounded bg-terminal-border hover:bg-terminal-comment/20 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <div className="text-2xl mb-2">{feature.icon}</div>
-                    <h3 className="font-bold text-terminal-fg mb-1">{feature.title}</h3>
-                    <p className="text-sm text-terminal-comment">{feature.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+                    {copiedSection === 'install' ? (
+                      <><Check className="w-4 h-4 text-terminal-directory" /> Copied!</>
+                    ) : (
+                      <><Copy className="w-4 h-4" /> Copy</>
+                    )}
+                  </motion.button>
+                </div>
+                <pre className="text-terminal-prompt overflow-x-auto text-sm">
+                  <code>{installCommand}</code>
+                </pre>
+              </motion.div>
 
-            {/* Quick Commands */}
-            <div>
-              <h2 className="text-xl font-bold mb-4 text-terminal-directory">⌨️ Quick Commands</h2>
-              <div className="bg-terminal-header border border-terminal-border rounded-lg overflow-hidden">
-                <div className="grid grid-cols-2 md:grid-cols-3 divide-x divide-y divide-terminal-border">
-                  {quickCommands.map((item, i) => (
-                    <div key={i} className="p-4 hover:bg-terminal-border/30 transition-colors">
-                      <code className="text-terminal-prompt font-bold">{item.cmd}</code>
-                      <span className="text-terminal-comment ml-2">→ {item.desc}</span>
-                    </div>
+              {/* AI Tools Install */}
+              <motion.div 
+                className="bg-terminal-header rounded-lg p-6 border border-terminal-border hover:border-terminal-prompt/50 transition-colors duration-300"
+                initial="hidden"
+                animate="visible"
+                variants={scaleIn}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                whileHover={{ scale: 1.01 }}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-terminal-comment text-sm">🤖 AI Tools Install (Optional)</span>
+                  <motion.button
+                    onClick={() => copyToClipboard(aiToolsCommand, 'ai-tools')}
+                    className="flex items-center gap-2 px-3 py-1 rounded bg-terminal-border hover:bg-terminal-comment/20 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {copiedSection === 'ai-tools' ? (
+                      <><Check className="w-4 h-4 text-terminal-directory" /> Copied!</>
+                    ) : (
+                      <><Copy className="w-4 h-4" /> Copy</>
+                    )}
+                  </motion.button>
+                </div>
+                <pre className="text-terminal-prompt overflow-x-auto text-sm">
+                  <code>{aiToolsCommand}</code>
+                </pre>
+                <p className="text-terminal-comment text-sm mt-3">
+                  Claude Code, Aider, GitHub Copilot, Ollama နှင့် အခြား AI tools များကို install လုပ်ပေးပါမည်
+                </p>
+              </motion.div>
+
+              {/* Action Buttons */}
+              <motion.div 
+                className="flex flex-wrap justify-center gap-4"
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                <motion.a
+                  href="/dotfiles/.bashrc"
+                  download
+                  className="flex items-center gap-2 px-6 py-3 bg-terminal-prompt text-terminal-bg rounded-lg font-bold"
+                  whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -10px rgba(136, 192, 208, 0.4)" }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Download className="w-5 h-5" />
+                  Download .bashrc
+                </motion.a>
+                <motion.a
+                  href="https://github.com/mymyanmarland/code-helper-bot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-6 py-3 border-2 border-terminal-border rounded-lg hover:border-terminal-comment transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Github className="w-5 h-5" />
+                  View on GitHub
+                </motion.a>
+              </motion.div>
+            </TabsContent>
+
+            {/* Features Tab */}
+            <TabsContent value="features" className="space-y-8">
+              {/* Features Grid */}
+              <div>
+                <motion.h2 
+                  className="text-xl font-bold mb-4 text-terminal-directory"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  ✨ Features Included
+                </motion.h2>
+                <motion.div 
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                  initial="hidden"
+                  animate="visible"
+                  variants={staggerContainer}
+                >
+                  {features.map((feature, i) => (
+                    <motion.div
+                      key={i}
+                      className="bg-terminal-header border border-terminal-border rounded-lg p-4 hover:border-terminal-prompt transition-colors cursor-pointer"
+                      variants={fadeInUp}
+                      whileHover={{ scale: 1.03, y: -5 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <motion.div 
+                        className="text-2xl mb-2"
+                        whileHover={{ scale: 1.2, rotate: 10 }}
+                      >
+                        {feature.icon}
+                      </motion.div>
+                      <h3 className="font-bold text-terminal-fg mb-1">{feature.title}</h3>
+                      <p className="text-sm text-terminal-comment">{feature.desc}</p>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
-              <p className="text-center text-terminal-comment mt-3 text-sm">
-                Type <code className="text-terminal-warning">help-me</code> or <code className="text-terminal-warning">ai-help</code> in terminal for full reference
-              </p>
-            </div>
 
-            {/* Terminal Preview */}
-            <div>
-              <h2 className="text-xl font-bold mb-4 text-terminal-directory">🖥️ Prompt Preview</h2>
-              <div className="bg-terminal-header rounded-lg overflow-hidden border border-terminal-border">
-                <div className="flex items-center gap-2 px-4 py-2 border-b border-terminal-border">
-                  <span className="w-3 h-3 rounded-full bg-destructive" />
-                  <span className="w-3 h-3 rounded-full bg-terminal-warning" />
-                  <span className="w-3 h-3 rounded-full bg-terminal-maximize" />
-                  <span className="text-terminal-comment text-sm ml-2">Terminal</span>
-                </div>
-                <div className="p-4 space-y-2 text-sm">
-                  <div>
-                    <span className="text-terminal-prompt font-bold">user</span>
-                    <span className="text-terminal-comment">@</span>
-                    <span className="text-terminal-directory">linux-terminal</span>
-                    <span className="text-terminal-comment"> ❯ </span>
-                    <span className="text-[#8FBCBB] font-bold">~/projects/my-app</span>
-                    <span className="text-[#A3BE8C]"> main ●</span>
-                    <span className="text-[#A3BE8C]"> ⬢ 20.10.0</span>
+              {/* Quick Commands */}
+              <div>
+                <motion.h2 
+                  className="text-xl font-bold mb-4 text-terminal-directory"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                >
+                  ⌨️ Quick Commands
+                </motion.h2>
+                <motion.div 
+                  className="bg-terminal-header border border-terminal-border rounded-lg overflow-hidden"
+                  initial="hidden"
+                  animate="visible"
+                  variants={scaleIn}
+                  transition={{ duration: 0.4, delay: 0.3 }}
+                >
+                  <div className="grid grid-cols-2 md:grid-cols-3 divide-x divide-y divide-terminal-border">
+                    {quickCommands.map((item, i) => (
+                      <motion.div 
+                        key={i} 
+                        className="p-4 hover:bg-terminal-border/30 transition-colors cursor-pointer"
+                        whileHover={{ backgroundColor: "rgba(67, 76, 94, 0.5)" }}
+                      >
+                        <code className="text-terminal-prompt font-bold">{item.cmd}</code>
+                        <span className="text-terminal-comment ml-2">→ {item.desc}</span>
+                      </motion.div>
+                    ))}
                   </div>
-                  <div>
-                    <span className="text-[#B48EAD]">❯</span>
-                    <span className="text-terminal-fg ml-2">npm run dev</span>
-                    <span className="animate-pulse ml-1">▋</span>
-                  </div>
-                </div>
+                </motion.div>
+                <p className="text-center text-terminal-comment mt-3 text-sm">
+                  Type <code className="text-terminal-warning">help-me</code> or <code className="text-terminal-warning">ai-help</code> in terminal for full reference
+                </p>
               </div>
-            </div>
-          </TabsContent>
+
+              {/* Terminal Preview */}
+              <div>
+                <motion.h2 
+                  className="text-xl font-bold mb-4 text-terminal-directory"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 }}
+                >
+                  🖥️ Prompt Preview
+                </motion.h2>
+                <motion.div 
+                  className="bg-terminal-header rounded-lg overflow-hidden border border-terminal-border"
+                  initial="hidden"
+                  animate="visible"
+                  variants={scaleIn}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                  whileHover={{ boxShadow: "0 20px 40px -20px rgba(0, 0, 0, 0.5)" }}
+                >
+                  <div className="flex items-center gap-2 px-4 py-2 border-b border-terminal-border">
+                    <motion.span 
+                      className="w-3 h-3 rounded-full bg-destructive"
+                      whileHover={{ scale: 1.3 }}
+                    />
+                    <motion.span 
+                      className="w-3 h-3 rounded-full bg-terminal-warning"
+                      whileHover={{ scale: 1.3 }}
+                    />
+                    <motion.span 
+                      className="w-3 h-3 rounded-full bg-terminal-maximize"
+                      whileHover={{ scale: 1.3 }}
+                    />
+                    <span className="text-terminal-comment text-sm ml-2">Terminal</span>
+                  </div>
+                  <div className="p-4 space-y-2 text-sm">
+                    <motion.div
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.7 }}
+                    >
+                      <span className="text-terminal-prompt font-bold">user</span>
+                      <span className="text-terminal-comment">@</span>
+                      <span className="text-terminal-directory">linux-terminal</span>
+                      <span className="text-terminal-comment"> ❯ </span>
+                      <span className="text-[#8FBCBB] font-bold">~/projects/my-app</span>
+                      <span className="text-[#A3BE8C]"> main ●</span>
+                      <span className="text-[#A3BE8C]"> ⬢ 20.10.0</span>
+                    </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.9 }}
+                    >
+                      <span className="text-[#B48EAD]">❯</span>
+                      <span className="text-terminal-fg ml-2">npm run dev</span>
+                      <motion.span 
+                        className="ml-1 inline-block"
+                        animate={{ opacity: [1, 0, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      >
+                        ▋
+                      </motion.span>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            </TabsContent>
 
           {/* Myanmar Guide Tab */}
           <TabsContent value="guide" className="space-y-6">
@@ -349,23 +488,33 @@ export AIDER_MODEL="claude-3-5-sonnet-20241022"`}
 └── README.md            # Documentation`}
               </pre>
             </div>
-          </TabsContent>
-        </Tabs>
-
+            </TabsContent>
+          </Tabs>
+        </motion.div>
         {/* Footer */}
-        <div className="text-center mt-12 text-terminal-comment text-sm">
-          <p>Made with ❤️ for productive terminal experiences</p>
+        <motion.div 
+          className="text-center mt-12 text-terminal-comment text-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          <p>Made with <motion.span 
+            className="inline-block text-destructive"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          >❤️</motion.span> for productive terminal experiences</p>
           <p className="mt-2">
-            <a 
+            <motion.a 
               href="https://github.com/mymyanmarland/code-helper-bot" 
               target="_blank"
               rel="noopener noreferrer"
               className="text-terminal-prompt hover:underline inline-flex items-center gap-1"
+              whileHover={{ scale: 1.05 }}
             >
               Fork on GitHub <ExternalLink className="w-3 h-3" />
-            </a>
+            </motion.a>
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
