@@ -267,6 +267,116 @@ chmod +x install-ai-tools.sh
           </div>
         </div>
 
+        {/* API Keys Setup Guide */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8 text-terminal-directory">
+            🔑 API Keys Setup Guide
+          </h2>
+          <div className="bg-terminal-header border border-terminal-border rounded-lg p-6 space-y-6">
+            
+            {/* Claude / Anthropic */}
+            <div className="border-l-4 border-[#D08770] pl-4">
+              <h3 className="text-[#D08770] font-bold mb-2 flex items-center gap-2">
+                🤖 Claude Code (Anthropic)
+              </h3>
+              <p className="text-terminal-comment mb-3">
+                Claude Code အတွက် Anthropic API key လိုအပ်ပါတယ်။
+              </p>
+              <div className="space-y-2 text-sm">
+                <p className="text-terminal-fg">1. <a href="https://console.anthropic.com/" target="_blank" rel="noopener noreferrer" className="text-terminal-prompt hover:underline">console.anthropic.com</a> မှာ account ဖွင့်ပါ</p>
+                <p className="text-terminal-fg">2. API Keys section မှာ key အသစ်ဖန်တီးပါ</p>
+                <p className="text-terminal-fg">3. <code className="bg-terminal-bg px-2 py-1 rounded">~/.bash_secrets</code> မှာ ထည့်ပါ:</p>
+                <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt overflow-x-auto">
+{`export ANTHROPIC_API_KEY="sk-ant-xxxxx"`}
+                </pre>
+              </div>
+            </div>
+
+            {/* OpenAI */}
+            <div className="border-l-4 border-terminal-prompt pl-4">
+              <h3 className="text-terminal-prompt font-bold mb-2 flex items-center gap-2">
+                💬 OpenAI (GPT-4, Aider)
+              </h3>
+              <p className="text-terminal-comment mb-3">
+                Aider နဲ့ GPT models တွေအတွက် OpenAI API key လိုအပ်ပါတယ်။
+              </p>
+              <div className="space-y-2 text-sm">
+                <p className="text-terminal-fg">1. <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-terminal-prompt hover:underline">platform.openai.com/api-keys</a> သို့သွားပါ</p>
+                <p className="text-terminal-fg">2. "Create new secret key" နှိပ်ပြီး key ဖန်တီးပါ</p>
+                <p className="text-terminal-fg">3. <code className="bg-terminal-bg px-2 py-1 rounded">~/.bash_secrets</code> မှာ ထည့်ပါ:</p>
+                <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt overflow-x-auto">
+{`export OPENAI_API_KEY="sk-xxxxx"`}
+                </pre>
+              </div>
+            </div>
+
+            {/* GitHub Copilot */}
+            <div className="border-l-4 border-terminal-directory pl-4">
+              <h3 className="text-terminal-directory font-bold mb-2 flex items-center gap-2">
+                🐙 GitHub Copilot
+              </h3>
+              <p className="text-terminal-comment mb-3">
+                GitHub Copilot CLI အတွက် GitHub account နဲ့ Copilot subscription လိုအပ်ပါတယ်။
+              </p>
+              <div className="space-y-2 text-sm">
+                <p className="text-terminal-fg">1. <a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer" className="text-terminal-prompt hover:underline">GitHub Copilot</a> subscription ဝယ်ပါ (သို့) student/OSS free tier ရယူပါ</p>
+                <p className="text-terminal-fg">2. GitHub CLI ကို authenticate လုပ်ပါ:</p>
+                <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt overflow-x-auto">
+{`gh auth login
+gh extension install github/gh-copilot`}
+                </pre>
+              </div>
+            </div>
+
+            {/* Ollama */}
+            <div className="border-l-4 border-[#B48EAD] pl-4">
+              <h3 className="text-[#B48EAD] font-bold mb-2 flex items-center gap-2">
+                🦙 Ollama (Local LLMs)
+              </h3>
+              <p className="text-terminal-comment mb-3">
+                Ollama က local မှာ run တာဖြစ်လို့ API key မလိုပါဘူး။ Free ပါ!
+              </p>
+              <div className="space-y-2 text-sm">
+                <p className="text-terminal-fg">1. Ollama ကို install လုပ်ပါ:</p>
+                <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt overflow-x-auto">
+{`curl -fsSL https://ollama.ai/install.sh | sh`}
+                </pre>
+                <p className="text-terminal-fg">2. Model download လုပ်ပြီး run ပါ:</p>
+                <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt overflow-x-auto">
+{`ollama pull llama3.2
+ollama run llama3.2`}
+                </pre>
+              </div>
+            </div>
+
+            {/* bash_secrets template */}
+            <div className="bg-terminal-bg/50 rounded-lg p-4 mt-4">
+              <h4 className="text-terminal-warning font-bold mb-3">📄 ~/.bash_secrets Template</h4>
+              <p className="text-terminal-comment text-sm mb-3">
+                ဒီ file ကို create လုပ်ပြီး API keys တွေကို သိမ်းထားပါ။ Git မှာ commit မဖြစ်အောင် .gitignore မှာ ထည့်ထားပါပြီ။
+              </p>
+              <pre className="bg-terminal-bg p-3 rounded text-terminal-prompt text-sm overflow-x-auto">
+{`# ~/.bash_secrets - Keep this file private!
+
+# Anthropic (Claude)
+export ANTHROPIC_API_KEY="sk-ant-xxxxx"
+
+# OpenAI (GPT-4, Aider)
+export OPENAI_API_KEY="sk-xxxxx"
+
+# Google AI (Gemini)
+export GOOGLE_API_KEY="xxxxx"
+
+# Optional: Default model for Aider
+export AIDER_MODEL="claude-3-5-sonnet-20241022"`}
+              </pre>
+              <p className="text-terminal-comment text-sm mt-3">
+                ပြီးရင် terminal ကို reload လုပ်ပါ: <code className="text-terminal-warning">source ~/.bashrc</code>
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Files Included */}
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-8 text-terminal-directory">
