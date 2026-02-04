@@ -1,0 +1,321 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# AI Coding Assistants - Aliases & Configuration
+# Claude Code, OpenAI Codex, Aider, GitHub Copilot, and more
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CLAUDE CODE (Anthropic CLI)
+# https://github.com/anthropics/claude-code
+# ─────────────────────────────────────────────────────────────────────────────
+alias claude='claude'
+alias cc='claude'
+alias ccode='claude'
+alias claude-chat='claude chat'
+alias claude-code='claude code'
+alias claude-edit='claude edit'
+alias claude-review='claude review'
+alias claude-explain='claude explain'
+alias claude-fix='claude fix'
+alias claude-test='claude test'
+alias claude-doc='claude document'
+
+# Claude with specific options
+alias ccv='claude --verbose'
+alias ccd='claude --debug'
+alias ccm='claude --model claude-sonnet-4-20250514'  # Use latest model
+
+# Quick Claude commands
+claudefix() {
+    claude fix "$@"
+}
+
+claudereview() {
+    claude review "$@"
+}
+
+claudeexplain() {
+    claude explain "$@"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OPENAI CODEX / ChatGPT CLI
+# https://github.com/openai/codex-cli
+# ─────────────────────────────────────────────────────────────────────────────
+alias codex='codex'
+alias cx='codex'
+alias openai='openai'
+alias gpt='openai api chat.completions.create'
+alias chatgpt='openai api chat.completions.create'
+
+# Codex quick commands
+alias codex-complete='codex complete'
+alias codex-edit='codex edit'
+alias codex-insert='codex insert'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AIDER - AI Pair Programming
+# https://github.com/paul-gauthier/aider
+# ─────────────────────────────────────────────────────────────────────────────
+alias aider='aider'
+alias ai='aider'
+alias aicode='aider'
+alias aider-gpt4='aider --model gpt-4'
+alias aider-claude='aider --model claude-3-opus-20240229'
+alias aider-sonnet='aider --model claude-sonnet-4-20250514'
+
+# Aider with different modes
+alias aider-ask='aider --ask'
+alias aider-architect='aider --architect'
+alias aider-diff='aider --show-diffs'
+alias aider-auto='aider --auto-commits'
+
+# Quick aider with file
+aiderfile() {
+    aider "$@"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GITHUB COPILOT CLI
+# https://docs.github.com/en/copilot/github-copilot-in-the-cli
+# ─────────────────────────────────────────────────────────────────────────────
+alias ghcs='gh copilot suggest'
+alias ghce='gh copilot explain'
+alias copilot='gh copilot'
+alias cps='gh copilot suggest'
+alias cpe='gh copilot explain'
+
+# Copilot suggest with type
+alias ghcs-shell='gh copilot suggest -t shell'
+alias ghcs-git='gh copilot suggest -t git'
+alias ghcs-gh='gh copilot suggest -t gh'
+
+# Quick explain last command
+explain-last() {
+    gh copilot explain "$(fc -ln -1)"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CURSOR CLI (if available)
+# ─────────────────────────────────────────────────────────────────────────────
+alias cursor='cursor'
+alias cur='cursor'
+alias cursor-open='cursor .'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CODY (Sourcegraph)
+# https://sourcegraph.com/cody
+# ─────────────────────────────────────────────────────────────────────────────
+alias cody='cody'
+alias cody-chat='cody chat'
+alias cody-explain='cody explain'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CONTINUE.DEV
+# https://continue.dev/
+# ─────────────────────────────────────────────────────────────────────────────
+alias continue='continue'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TABBY (Self-hosted AI)
+# https://tabby.tabbyml.com/
+# ─────────────────────────────────────────────────────────────────────────────
+alias tabby='tabby'
+alias tabby-serve='tabby serve'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OLLAMA (Local LLMs)
+# https://ollama.ai/
+# ─────────────────────────────────────────────────────────────────────────────
+alias ollama='ollama'
+alias oll='ollama'
+alias ollama-run='ollama run'
+alias ollama-list='ollama list'
+alias ollama-pull='ollama pull'
+
+# Quick ollama models
+alias llama='ollama run llama3'
+alias codellama='ollama run codellama'
+alias mistral='ollama run mistral'
+alias deepseek='ollama run deepseek-coder'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LLM CLI (Simon Willison's tool)
+# https://github.com/simonw/llm
+# ─────────────────────────────────────────────────────────────────────────────
+alias llm='llm'
+alias llm-chat='llm chat'
+alias llm-models='llm models'
+alias llm-logs='llm logs'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SGPT (Shell GPT)
+# https://github.com/TheR1D/shell_gpt
+# ─────────────────────────────────────────────────────────────────────────────
+alias sgpt='sgpt'
+alias s='sgpt'
+alias sgpt-code='sgpt --code'
+alias sgpt-shell='sgpt --shell'
+alias sgpt-describe='sgpt --describe-shell'
+
+# ─────────────────────────────────────────────────────────────────────────────
+# UTILITY FUNCTIONS
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Ask any available AI
+ask-ai() {
+    local query="$*"
+    if command -v claude &>/dev/null; then
+        claude chat "$query"
+    elif command -v aider &>/dev/null; then
+        echo "$query" | aider --message "$query"
+    elif command -v gh &>/dev/null && gh copilot --version &>/dev/null 2>&1; then
+        gh copilot explain "$query"
+    elif command -v sgpt &>/dev/null; then
+        sgpt "$query"
+    elif command -v ollama &>/dev/null; then
+        ollama run llama3 "$query"
+    else
+        echo "No AI CLI tool found. Install one of: claude, aider, gh copilot, sgpt, ollama"
+    fi
+}
+
+# Generate code with available AI
+generate-code() {
+    local prompt="$*"
+    if command -v claude &>/dev/null; then
+        claude code "$prompt"
+    elif command -v aider &>/dev/null; then
+        aider --message "Generate code: $prompt"
+    elif command -v sgpt &>/dev/null; then
+        sgpt --code "$prompt"
+    else
+        echo "No code generation tool found."
+    fi
+}
+
+# Explain code file
+explain-file() {
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        echo "File not found: $file"
+        return 1
+    fi
+    
+    if command -v claude &>/dev/null; then
+        claude explain "$file"
+    elif command -v gh &>/dev/null; then
+        cat "$file" | gh copilot explain
+    elif command -v aider &>/dev/null; then
+        aider "$file" --message "Explain this code"
+    else
+        echo "No AI tool found to explain code."
+    fi
+}
+
+# Review code changes
+review-changes() {
+    local diff=$(git diff)
+    if [ -z "$diff" ]; then
+        echo "No changes to review"
+        return 0
+    fi
+    
+    if command -v claude &>/dev/null; then
+        echo "$diff" | claude review
+    elif command -v aider &>/dev/null; then
+        aider --message "Review these changes: $diff"
+    else
+        echo "No AI review tool found."
+    fi
+}
+
+# Fix code issues
+fix-code() {
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        echo "File not found: $file"
+        return 1
+    fi
+    
+    if command -v claude &>/dev/null; then
+        claude fix "$file"
+    elif command -v aider &>/dev/null; then
+        aider "$file" --message "Fix any issues in this code"
+    else
+        echo "No AI fix tool found."
+    fi
+}
+
+# Generate tests
+generate-tests() {
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        echo "File not found: $file"
+        return 1
+    fi
+    
+    if command -v claude &>/dev/null; then
+        claude test "$file"
+    elif command -v aider &>/dev/null; then
+        aider "$file" --message "Generate comprehensive tests for this code"
+    else
+        echo "No AI test generation tool found."
+    fi
+}
+
+# Generate documentation
+generate-docs() {
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        echo "File not found: $file"
+        return 1
+    fi
+    
+    if command -v claude &>/dev/null; then
+        claude document "$file"
+    elif command -v aider &>/dev/null; then
+        aider "$file" --message "Generate documentation for this code"
+    else
+        echo "No AI documentation tool found."
+    fi
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# HELP FUNCTION
+# ─────────────────────────────────────────────────────────────────────────────
+
+ai-help() {
+    echo -e "\033[38;2;136;192;208m╭──────────────────────────────────────────────────────────────╮\033[0m"
+    echo -e "\033[38;2;136;192;208m│\033[0m \033[1mAI Coding Assistants - Quick Reference\033[0m                       \033[38;2;136;192;208m│\033[0m"
+    echo -e "\033[38;2;136;192;208m╰──────────────────────────────────────────────────────────────╯\033[0m"
+    echo ""
+    echo -e "\033[38;2;163;190;140mClaude Code:\033[0m"
+    echo "  cc, claude        → Start Claude CLI"
+    echo "  claude-fix        → Fix code issues"
+    echo "  claude-review     → Review code"
+    echo "  claude-explain    → Explain code"
+    echo ""
+    echo -e "\033[38;2;235;203;139mGitHub Copilot:\033[0m"
+    echo "  ghcs              → Suggest command"
+    echo "  ghce              → Explain command"
+    echo "  explain-last      → Explain last command"
+    echo ""
+    echo -e "\033[38;2;180;142;173mAider:\033[0m"
+    echo "  ai, aider         → Start Aider"
+    echo "  aider-claude      → Use Claude model"
+    echo "  aider-gpt4        → Use GPT-4 model"
+    echo ""
+    echo -e "\033[38;2;136;192;208mOllama (Local):\033[0m"
+    echo "  ollama-run        → Run a model"
+    echo "  llama             → Run Llama 3"
+    echo "  codellama         → Run CodeLlama"
+    echo ""
+    echo -e "\033[38;2;208;135;112mUtility Functions:\033[0m"
+    echo "  ask-ai \"query\"    → Ask any available AI"
+    echo "  explain-file f    → Explain a code file"
+    echo "  review-changes    → Review git changes"
+    echo "  fix-code file     → Fix code issues"
+    echo "  generate-tests f  → Generate tests"
+    echo "  generate-docs f   → Generate documentation"
+    echo ""
+}

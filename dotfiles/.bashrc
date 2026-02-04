@@ -1,6 +1,7 @@
 # ╔══════════════════════════════════════════════════════════════════════════╗
 # ║                     Custom Bash Configuration                              ║
 # ║                     GitHub Codespaces Ready                                ║
+# ║                     + AI Coding Assistants                                 ║
 # ╚══════════════════════════════════════════════════════════════════════════╝
 
 # If not running interactively, don't do anything
@@ -599,4 +600,19 @@ help-me() {
     echo ""
     echo -e "${NORD9}Utils:${RESET}     mkcd | extract | ff (find) | killport | myip"
     echo ""
+    echo -e "${NORD7}AI Tools:${RESET}  cc (claude) | ai (aider) | ghcs (copilot suggest)"
+    echo -e "${NORD7}           Type 'ai-help' for full AI commands reference"
+    echo ""
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SOURCE AI ALIASES
+# ─────────────────────────────────────────────────────────────────────────────
+if [ -f ~/.ai_aliases ]; then
+    source ~/.ai_aliases
+fi
+
+# Source secrets (API keys) if exists
+if [ -f ~/.bash_secrets ]; then
+    source ~/.bash_secrets
+fi
