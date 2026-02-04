@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  rolesLoading: boolean;
   roles: UserRole[];
   isAdmin: boolean;
   signOut: () => Promise<void>;
@@ -19,6 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(true);
   const [roles, setRoles] = useState<UserRole[]>([]);
 
   useEffect(() => {
@@ -31,11 +33,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         
         // Defer role fetching with setTimeout to avoid deadlock
         if (session?.user) {
+          setRolesLoading(true);
           setTimeout(() => {
             fetchUserRoles(session.user.id);
           }, 0);
         } else {
           setRoles([]);
+          setRolesLoading(false);
         }
       }
     );
@@ -47,7 +51,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
       
       if (session?.user) {
+        setRolesLoading(true);
         fetchUserRoles(session.user.id);
+      } else {
+        setRolesLoading(false);
       }
     });
 
@@ -63,12 +70,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       if (error) {
         console.error('Error fetching roles:', error);
-        return;
+        setRoles([]);
+      } else {
+        setRoles(data?.map(r => r.role as UserRole) || []);
       }
-      
-      setRoles(data?.map(r => r.role as UserRole) || []);
     } catch (error) {
       console.error('Error fetching roles:', error);
+      setRoles([]);
+    } finally {
+      setRolesLoading(false);
     }
   };
 
@@ -82,7 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const isAdmin = roles.includes('admin');
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, roles, isAdmin, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, rolesLoading, roles, isAdmin, signOut }}>
       {children}
     </AuthContext.Provider>
   );
