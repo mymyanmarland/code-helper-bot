@@ -282,13 +282,14 @@ chmod +x install-ai-tools.sh
                 </pre>
               </div>
 
-              {/* OpenAI */}
+              {/* OpenAI & Codex */}
               <div className="border-l-4 border-terminal-prompt pl-4 bg-terminal-header rounded-r-lg p-4">
-                <h3 className="text-terminal-prompt font-bold mb-2">💬 OpenAI (GPT-4, Aider)</h3>
-                <p className="text-terminal-comment mb-2 text-sm">Aider နဲ့ GPT models တွေအတွက် OpenAI API key လိုအပ်ပါတယ်။</p>
+                <h3 className="text-terminal-prompt font-bold mb-2">💬 OpenAI (GPT-4, Codex, Aider)</h3>
+                <p className="text-terminal-comment mb-2 text-sm">Aider, Codex နဲ့ GPT models တွေအတွက် OpenAI API key လိုအပ်ပါတယ်။</p>
                 <div className="space-y-1 text-sm">
                   <p>1. <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-terminal-prompt hover:underline">platform.openai.com/api-keys</a> သို့သွားပါ</p>
                   <p>2. "Create new secret key" နှိပ်ပြီး key ဖန်တီးပါ</p>
+                  <p className="text-terminal-comment mt-1">💡 Codex CLI: <code className="text-terminal-warning">npm install -g @openai/codex</code></p>
                 </div>
                 <pre className="bg-terminal-bg p-2 rounded text-terminal-prompt text-sm mt-2 overflow-x-auto">
                   export OPENAI_API_KEY="sk-xxxxx"
