@@ -34,6 +34,7 @@ export default {
           error: "hsl(var(--terminal-error))",
           warning: "hsl(var(--terminal-warning))",
           comment: "hsl(var(--terminal-comment))",
+          maximize: "hsl(var(--terminal-maximize))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
