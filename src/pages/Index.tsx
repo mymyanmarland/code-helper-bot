@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Check, Github, Terminal, Download, ExternalLink, LogIn, LogOut, User } from 'lucide-react';
+import { Copy, Check, Github, Terminal, Download, ExternalLink, LogOut, Shield } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import AIBackground from '@/components/AIBackground';
 
 const fadeInUp = {
@@ -28,25 +28,8 @@ const scaleIn = {
 
 const Index = () => {
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
-  const [user, setUser] = useState<any>(null);
+  const { user, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-  };
 
   const copyToClipboard = (text: string, section: string) => {
     navigator.clipboard.writeText(text);
@@ -86,33 +69,30 @@ chmod +x install-ai-tools.sh
       <AIBackground />
       
       {/* Auth Button - Top Right */}
-      <div className="fixed top-4 right-4 z-50">
-        {user ? (
-          <div className="flex items-center gap-3">
-            <span className="text-terminal-comment text-sm hidden md:block">
-              {user.email}
-            </span>
-            <motion.button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-terminal-header border border-terminal-border rounded-lg text-terminal-fg hover:border-terminal-prompt transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="hidden md:inline">Logout</span>
-            </motion.button>
-          </div>
-        ) : (
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
+        {isAdmin && (
           <motion.button
-            onClick={() => navigate('/auth')}
-            className="flex items-center gap-2 px-4 py-2 bg-terminal-prompt text-terminal-bg rounded-lg font-bold"
+            onClick={() => navigate('/admin')}
+            className="flex items-center gap-2 px-4 py-2 bg-terminal-header border border-terminal-border rounded-lg text-terminal-fg hover:border-terminal-prompt transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <LogIn className="w-4 h-4" />
-            <span>Login</span>
+            <Shield className="w-4 h-4 text-terminal-prompt" />
+            <span className="hidden md:inline">Admin</span>
           </motion.button>
         )}
+        <span className="text-terminal-comment text-sm hidden md:block">
+          {user?.email}
+        </span>
+        <motion.button
+          onClick={signOut}
+          className="flex items-center gap-2 px-4 py-2 bg-terminal-header border border-terminal-border rounded-lg text-terminal-fg hover:border-terminal-prompt transition-colors"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <LogOut className="w-4 h-4" />
+          <span className="hidden md:inline">Logout</span>
+        </motion.button>
       </div>
 
       <div className="container mx-auto px-4 py-8 relative z-10">
