@@ -105,3 +105,8 @@ export const useAuth = () => {
   }
   return context;
 };
+
+// Safe version that doesn't throw - returns null if outside provider
+export const useAuthSafe = () => {
+  return useContext(AuthContext);
+};
